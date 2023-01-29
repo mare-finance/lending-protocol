@@ -27,9 +27,10 @@ const config: HardhatUserConfig = {
         hardhat: {
             forking: {
                 url: "https://evm.kava.io",
+                blockNumber: 3378340,
             },
-            initialBaseFeePerGas: 100000000,
-            gasPrice: 100000000,
+            initialBaseFeePerGas: 0,
+            gasPrice: 0,
         },
         kava: {
             chainId: 2222,
