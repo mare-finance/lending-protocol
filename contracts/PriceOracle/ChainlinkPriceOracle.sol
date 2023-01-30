@@ -44,28 +44,23 @@ contract ChainlinkPriceOracle is PriceOracle {
 
         (uint256 price, ) = _getLatestPrice(symbol);
 
-        return price * 10**(18 - feedDecimals);
+        return price * 10 ** (18 - feedDecimals);
     }
 
     // price is extended for comptroller usage based on decimals of exchangeRate
-    function getUnderlyingPrice(CToken cToken)
-        external
-        view
-        override
-        returns (uint256)
-    {
+    function getUnderlyingPrice(
+        CToken cToken
+    ) external view override returns (uint256) {
         string memory symbol = cToken.symbol();
         uint256 feedDecimals = priceFeeds[symbol].decimals();
 
         (uint256 price, ) = _getLatestPrice(symbol);
-        return (price * (10**(36 - feedDecimals))) / baseUnits[symbol];
+        return (price * (10 ** (36 - feedDecimals))) / baseUnits[symbol];
     }
 
-    function _getLatestPrice(string memory symbol)
-        internal
-        view
-        returns (uint256, uint256)
-    {
+    function _getLatestPrice(
+        string memory symbol
+    ) internal view returns (uint256, uint256) {
         require(address(priceFeeds[symbol]) != address(0), "missing priceFeed");
 
         (

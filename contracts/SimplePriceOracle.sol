@@ -6,9 +6,16 @@ import "./CErc20.sol";
 
 contract SimplePriceOracle is PriceOracle {
     mapping(address => uint) prices;
-    event PricePosted(address asset, uint previousPriceMantissa, uint requestedPriceMantissa, uint newPriceMantissa);
+    event PricePosted(
+        address asset,
+        uint previousPriceMantissa,
+        uint requestedPriceMantissa,
+        uint newPriceMantissa
+    );
 
-    function _getUnderlyingAddress(CToken cToken) private view returns (address) {
+    function _getUnderlyingAddress(
+        CToken cToken
+    ) private view returns (address) {
         address asset;
         if (compareStrings(cToken.symbol(), "cETH")) {
             asset = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
@@ -18,13 +25,23 @@ contract SimplePriceOracle is PriceOracle {
         return asset;
     }
 
-    function getUnderlyingPrice(CToken cToken) public override view returns (uint) {
+    function getUnderlyingPrice(
+        CToken cToken
+    ) public view override returns (uint) {
         return prices[_getUnderlyingAddress(cToken)];
     }
 
-    function setUnderlyingPrice(CToken cToken, uint underlyingPriceMantissa) public {
+    function setUnderlyingPrice(
+        CToken cToken,
+        uint underlyingPriceMantissa
+    ) public {
         address asset = _getUnderlyingAddress(cToken);
-        emit PricePosted(asset, prices[asset], underlyingPriceMantissa, underlyingPriceMantissa);
+        emit PricePosted(
+            asset,
+            prices[asset],
+            underlyingPriceMantissa,
+            underlyingPriceMantissa
+        );
         prices[asset] = underlyingPriceMantissa;
     }
 
@@ -38,7 +55,11 @@ contract SimplePriceOracle is PriceOracle {
         return prices[asset];
     }
 
-    function compareStrings(string memory a, string memory b) internal pure returns (bool) {
-        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
+    function compareStrings(
+        string memory a,
+        string memory b
+    ) internal pure returns (bool) {
+        return (keccak256(abi.encodePacked((a))) ==
+            keccak256(abi.encodePacked((b))));
     }
 }

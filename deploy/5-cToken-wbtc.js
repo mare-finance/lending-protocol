@@ -1,7 +1,7 @@
-const tokenConfigs = require('../config/token-config.json');
+const tokenConfigs = require("../config/token-config.json");
 
-const token = 'WBTC';
-const admin = '0x37fF10390F22fABDc2137E428A6E6965960D60b6';
+const token = "WBTC";
+const admin = "0x37fF10390F22fABDc2137E428A6E6965960D60b6";
 
 module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
     const { deploy, get } = deployments;
@@ -24,7 +24,7 @@ module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
         cToken = await deploy(contractKey, {
             from: deployer,
             log: true,
-            contract: 'contracts/CErc20Immutable.sol:CErc20Immutable',
+            contract: "contracts/CErc20Immutable.sol:CErc20Immutable",
             args: [
                 tokenConfig.underlying,
                 comptroller.address,
@@ -39,4 +39,4 @@ module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
     }
 };
 
-module.exports.tags = ['cToken-wbtc'];
+module.exports.tags = ["cToken-wbtc"];

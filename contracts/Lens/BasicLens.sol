@@ -9,14 +9,9 @@ interface ComptrollerLensInterface {
 
     function oracle() external view returns (PriceOracle);
 
-    function getAccountLiquidity(address)
-        external
-        view
-        returns (
-            uint256,
-            uint256,
-            uint256
-        );
+    function getAccountLiquidity(
+        address
+    ) external view returns (uint256, uint256, uint256);
 
     function getAssetsIn(address) external view returns (CToken[] memory);
 
@@ -36,10 +31,10 @@ interface ComptrollerLensInterface {
 }
 
 contract BasicLens {
-    function compAccued(ComptrollerLensInterface comptroller, address account)
-        external
-        returns (uint256 accrued)
-    {
+    function compAccued(
+        ComptrollerLensInterface comptroller,
+        address account
+    ) external returns (uint256 accrued) {
         address comp = comptroller.getCompAddress();
         uint256 balance = EIP20Interface(comp).balanceOf(account);
         comptroller.claimComp(account);
