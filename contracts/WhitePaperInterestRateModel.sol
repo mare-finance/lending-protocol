@@ -4,10 +4,10 @@ pragma solidity ^0.8.10;
 import "./InterestRateModel.sol";
 
 /**
-  * @title Compound's WhitePaperInterestRateModel Contract
-  * @author Compound
-  * @notice The parameterized model described in section 2.4 of the original Compound Protocol whitepaper
-  */
+ * @title Compound's WhitePaperInterestRateModel Contract
+ * @author Compound
+ * @notice The parameterized model described in section 2.4 of the original Compound Protocol whitepaper
+ */
 contract WhitePaperInterestRateModel is InterestRateModel {
     event NewInterestParams(uint baseRatePerBlock, uint multiplierPerBlock);
 
@@ -47,13 +47,17 @@ contract WhitePaperInterestRateModel is InterestRateModel {
      * @param reserves The amount of reserves in the market (currently unused)
      * @return The utilization rate as a mantissa between [0, BASE]
      */
-    function utilizationRate(uint cash, uint borrows, uint reserves) public pure returns (uint) {
+    function utilizationRate(
+        uint cash,
+        uint borrows,
+        uint reserves
+    ) public pure returns (uint) {
         // Utilization rate is 0 when there are no borrows
         if (borrows == 0) {
             return 0;
         }
 
-        return borrows * BASE / (cash + borrows - reserves);
+        return (borrows * BASE) / (cash + borrows - reserves);
     }
 
     /**
@@ -63,9 +67,13 @@ contract WhitePaperInterestRateModel is InterestRateModel {
      * @param reserves The amount of reserves in the market
      * @return The borrow rate percentage per block as a mantissa (scaled by BASE)
      */
-    function getBorrowRate(uint cash, uint borrows, uint reserves) override public view returns (uint) {
+    function getBorrowRate(
+        uint cash,
+        uint borrows,
+        uint reserves
+    ) public view override returns (uint) {
         uint ur = utilizationRate(cash, borrows, reserves);
-        return (ur * multiplierPerBlock / BASE) + baseRatePerBlock;
+        return ((ur * multiplierPerBlock) / BASE) + baseRatePerBlock;
     }
 
     /**
@@ -76,10 +84,15 @@ contract WhitePaperInterestRateModel is InterestRateModel {
      * @param reserveFactorMantissa The current reserve factor for the market
      * @return The supply rate percentage per block as a mantissa (scaled by BASE)
      */
-    function getSupplyRate(uint cash, uint borrows, uint reserves, uint reserveFactorMantissa) override public view returns (uint) {
+    function getSupplyRate(
+        uint cash,
+        uint borrows,
+        uint reserves,
+        uint reserveFactorMantissa
+    ) public view override returns (uint) {
         uint oneMinusReserveFactor = BASE - reserveFactorMantissa;
         uint borrowRate = getBorrowRate(cash, borrows, reserves);
-        uint rateToPool = borrowRate * oneMinusReserveFactor / BASE;
-        return utilizationRate(cash, borrows, reserves) * rateToPool / BASE;
+        uint rateToPool = (borrowRate * oneMinusReserveFactor) / BASE;
+        return (utilizationRate(cash, borrows, reserves) * rateToPool) / BASE;
     }
 }

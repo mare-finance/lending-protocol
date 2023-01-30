@@ -139,11 +139,9 @@ contract Comptroller is
      * @param account The address of the account to pull assets for
      * @return A dynamic list with the assets the account has entered
      */
-    function getAssetsIn(address account)
-        external
-        view
-        returns (CToken[] memory)
-    {
+    function getAssetsIn(
+        address account
+    ) external view returns (CToken[] memory) {
         CToken[] memory assetsIn = accountAssets[account];
 
         return assetsIn;
@@ -155,11 +153,10 @@ contract Comptroller is
      * @param cToken The cToken to check
      * @return True if the account is in the asset, otherwise false.
      */
-    function checkMembership(address account, CToken cToken)
-        external
-        view
-        returns (bool)
-    {
+    function checkMembership(
+        address account,
+        CToken cToken
+    ) external view returns (bool) {
         return markets[address(cToken)].accountMembership[account];
     }
 
@@ -168,11 +165,9 @@ contract Comptroller is
      * @param cTokens The list of addresses of the cToken markets to be enabled
      * @return Success indicator for whether each corresponding market was entered
      */
-    function enterMarkets(address[] memory cTokens)
-        public
-        override
-        returns (uint256[] memory)
-    {
+    function enterMarkets(
+        address[] memory cTokens
+    ) public override returns (uint256[] memory) {
         uint256 len = cTokens.length;
 
         uint256[] memory results = new uint256[](len);
@@ -191,10 +186,10 @@ contract Comptroller is
      * @param borrower The address of the account to modify
      * @return Success indicator for whether the market was entered
      */
-    function addToMarketInternal(CToken cToken, address borrower)
-        internal
-        returns (Error)
-    {
+    function addToMarketInternal(
+        CToken cToken,
+        address borrower
+    ) internal returns (Error) {
         Market storage marketToJoin = markets[address(cToken)];
 
         if (!marketToJoin.isListed) {
@@ -227,11 +222,9 @@ contract Comptroller is
      * @param cTokenAddress The address of the asset to be removed
      * @return Whether or not the account successfully exited the market
      */
-    function exitMarket(address cTokenAddress)
-        external
-        override
-        returns (uint256)
-    {
+    function exitMarket(
+        address cTokenAddress
+    ) external override returns (uint256) {
         CToken cToken = CToken(cTokenAddress);
         /* Get sender tokensHeld and amountOwed underlying from the cToken */
         (uint256 oErr, uint256 tokensHeld, uint256 amountOwed, ) = cToken
@@ -830,15 +823,9 @@ contract Comptroller is
                 account liquidity in excess of collateral requirements,
      *          account shortfall below collateral requirements)
      */
-    function getAccountLiquidity(address account)
-        public
-        view
-        returns (
-            uint256,
-            uint256,
-            uint256
-        )
-    {
+    function getAccountLiquidity(
+        address account
+    ) public view returns (uint256, uint256, uint256) {
         (
             Error err,
             uint256 liquidity,
@@ -859,15 +846,9 @@ contract Comptroller is
                 account liquidity in excess of collateral requirements,
      *          account shortfall below collateral requirements)
      */
-    function getAccountLiquidityInternal(address account)
-        internal
-        view
-        returns (
-            Error,
-            uint256,
-            uint256
-        )
-    {
+    function getAccountLiquidityInternal(
+        address account
+    ) internal view returns (Error, uint256, uint256) {
         return
             getHypotheticalAccountLiquidityInternal(
                 account,
@@ -892,15 +873,7 @@ contract Comptroller is
         address cTokenModify,
         uint256 redeemTokens,
         uint256 borrowAmount
-    )
-        public
-        view
-        returns (
-            uint256,
-            uint256,
-            uint256
-        )
-    {
+    ) public view returns (uint256, uint256, uint256) {
         (
             Error err,
             uint256 liquidity,
@@ -931,15 +904,7 @@ contract Comptroller is
         CToken cTokenModify,
         uint256 redeemTokens,
         uint256 borrowAmount
-    )
-        internal
-        view
-        returns (
-            Error,
-            uint256,
-            uint256
-        )
-    {
+    ) internal view returns (Error, uint256, uint256) {
         AccountLiquidityLocalVars memory vars; // Holds all our calculation results
         uint256 oErr;
 
@@ -1114,10 +1079,9 @@ contract Comptroller is
      * @param newCloseFactorMantissa New close factor, scaled by 1e18
      * @return uint 0=success, otherwise a failure
      */
-    function _setCloseFactor(uint256 newCloseFactorMantissa)
-        external
-        returns (uint256)
-    {
+    function _setCloseFactor(
+        uint256 newCloseFactorMantissa
+    ) external returns (uint256) {
         // Check caller is admin
         require(msg.sender == admin, "only admin can set close factor");
 
@@ -1204,10 +1168,9 @@ contract Comptroller is
      * @param newLiquidationIncentiveMantissa New liquidationIncentive scaled by 1e18
      * @return uint 0=success, otherwise a failure. (See ErrorReporter for details)
      */
-    function _setLiquidationIncentive(uint256 newLiquidationIncentiveMantissa)
-        external
-        returns (uint256)
-    {
+    function _setLiquidationIncentive(
+        uint256 newLiquidationIncentiveMantissa
+    ) external returns (uint256) {
         // Check caller is admin
         if (msg.sender != admin) {
             return
@@ -1357,10 +1320,9 @@ contract Comptroller is
      * @param newPauseGuardian The address of the new Pause Guardian
      * @return uint 0=success, otherwise a failure. (See enum Error for details)
      */
-    function _setPauseGuardian(address newPauseGuardian)
-        public
-        returns (uint256)
-    {
+    function _setPauseGuardian(
+        address newPauseGuardian
+    ) public returns (uint256) {
         if (msg.sender != admin) {
             return
                 fail(
@@ -1589,9 +1551,10 @@ contract Comptroller is
      * @param cToken The market whose borrow index to update
      * @dev Index is a cumulative sum of the COMP per cToken accrued.
      */
-    function updateCompBorrowIndex(address cToken, Exp memory marketBorrowIndex)
-        internal
-    {
+    function updateCompBorrowIndex(
+        address cToken,
+        Exp memory marketBorrowIndex
+    ) internal {
         CompMarketState storage borrowState = compBorrowState[cToken];
         uint256 borrowSpeed = compBorrowSpeeds[cToken];
         uint32 blockNumber = safe32(
@@ -1810,10 +1773,10 @@ contract Comptroller is
      * @param amount The amount of COMP to (possibly) transfer
      * @return The amount of COMP which was NOT transferred to the user
      */
-    function grantCompInternal(address user, uint256 amount)
-        internal
-        returns (uint256)
-    {
+    function grantCompInternal(
+        address user,
+        uint256 amount
+    ) internal returns (uint256) {
         Comp comp = Comp(getCompAddress());
         uint256 compRemaining = comp.balanceOf(address(this));
         if (amount > 0 && amount <= compRemaining) {
@@ -1868,9 +1831,10 @@ contract Comptroller is
      * @param contributor The contributor whose COMP speed to update
      * @param compSpeed New COMP speed for contributor
      */
-    function _setContributorCompSpeed(address contributor, uint256 compSpeed)
-        public
-    {
+    function _setContributorCompSpeed(
+        address contributor,
+        uint256 compSpeed
+    ) public {
         require(adminOrInitializing(), "only admin can set comp speed");
 
         // note that COMP speed could be set to 0 to halt liquidity rewards for a contributor
@@ -1912,8 +1876,8 @@ contract Comptroller is
     }
 
     /**
-     * @notice Return the address of the SONNE token
-     * @return The address of SONNE
+     * @notice Return the address of the MARE token
+     * @return The address of MARE
      */
     function getCompAddress() public view virtual returns (address) {
         return 0x1DB2466d9F5e10D7090E7152B68d62703a2245F0;
