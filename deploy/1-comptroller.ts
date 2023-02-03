@@ -1,5 +1,12 @@
-module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
-    const { deploy, get } = deployments;
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
+
+const func: DeployFunction = async ({
+    getNamedAccounts,
+    deployments: { deploy },
+    ethers,
+    network,
+}: HardhatRuntimeEnvironment) => {
     const { deployer } = await getNamedAccounts();
 
     const comptrollerImplDeploy = await deploy("ComptrollerImpl", {
@@ -13,7 +20,7 @@ module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
         comptrollerImplDeploy.address
     );
 
-    const unitrollerDeploy = await deploy("Unitroller", {
+    const unitrollerDeploy = await deploy("ComptrollerV1", {
         from: deployer,
         log: true,
         contract: "contracts/Unitroller.sol:Unitroller",
@@ -42,4 +49,7 @@ module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
     }
 };
 
-module.exports.tags = ["comptroller"];
+const tags = ["comptroller"];
+export { tags };
+
+export default func;

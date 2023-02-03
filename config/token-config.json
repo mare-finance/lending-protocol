@@ -1,0 +1,81 @@
+[{
+        "underlying": "0x4200000000000000000000000000000000000006",
+        "name": "Wrapped Ether",
+        "symbol": "WETH",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "JumpRateModelV4",
+        "priceFeed": "0x13e3Ee699D1909E989722E753853AE30b17e08c5",
+        "baseUnit": "1000000000000000000"
+    },
+    {
+        "underlying": "0x7f5c764cbc14f9669b88837ca1490cca17c31607",
+        "name": "USDC",
+        "symbol": "USDC",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "JumpRateModelV4",
+        "priceFeed": "0x16a9FA2FDa030272Ce99B29CF780dFA30361E0f3",
+        "baseUnit": "1000000"
+    },
+    {
+        "underlying": "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58",
+        "name": "USDT",
+        "symbol": "USDT",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "JumpRateModelV4",
+        "priceFeed": "0xECef79E109e997bCA29c1c0897ec9d7b03647F5E",
+        "baseUnit": "1000000"
+    },
+    {
+        "underlying": "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
+        "name": "DAI",
+        "symbol": "DAI",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "JumpRateModelV4",
+        "priceFeed": "0x8dBa75e83DA73cc766A7e5a0ee71F656BAb470d6",
+        "baseUnit": "1000000000000000000"
+    },
+    {
+        "underlying": "0x4200000000000000000000000000000000000042",
+        "name": "OP",
+        "symbol": "OP",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "JumpRateModelV4",
+        "priceFeed": "0x0D276FC14719f9292D5C1eA2198673d1f4269246",
+        "baseUnit": "1000000000000000000"
+    },
+    {
+        "underlying": "0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9",
+        "name": "SUSD",
+        "symbol": "SUSD",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "JumpRateModelV4",
+        "priceFeed": "0x7f99817d87baD03ea21E05112Ca799d715730efe",
+        "baseUnit": "1000000000000000000"
+    },
+    {
+        "underlying": "0x8700dAec35aF8Ff88c16BdF0418774CB3D7599B4",
+        "name": "Synthetix Network Token",
+        "symbol": "SNX",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "VolatileRateModel",
+        "priceFeed": "0x2FCF37343e916eAEd1f1DdaaF84458a359b53877",
+        "baseUnit": "1000000000000000000"
+    },
+    {
+        "underlying": "0x68f180fcCe6836688e9084f035309E29Bf0A2095",
+        "name": "Wrapped Bitcoin",
+        "symbol": "WBTC",
+        "decimals": 8,
+        "comptroller": "ComptrollerV1",
+        "interestRateModel": "MediumRateModel",
+        "priceFeed": "0x718A5788b89454aAE3A028AE9c111A29Be6c2a6F",
+        "baseUnit": "100000000"
+    }
+]

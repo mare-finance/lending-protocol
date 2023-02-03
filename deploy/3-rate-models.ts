@@ -1,7 +1,13 @@
-module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
-    const { deploy } = deployments;
-    const { deployer } = await getNamedAccounts();
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
 
+const func: DeployFunction = async ({
+    getNamedAccounts,
+    deployments: { deploy },
+    ethers,
+    network,
+}: HardhatRuntimeEnvironment) => {
+    const { deployer } = await getNamedAccounts();
     const stableRateModel = await deploy("StableRateModel", {
         from: deployer,
         log: true,
@@ -48,4 +54,7 @@ module.exports = async({ getNamedAccounts, deployments, ethers, network }) => {
     });
 };
 
-module.exports.tags = ["rate-models"];
+const tags = ["rate-models"];
+export { tags };
+
+export default func;

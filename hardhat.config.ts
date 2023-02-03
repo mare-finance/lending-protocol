@@ -9,6 +9,8 @@ import "hardhat-deploy";
 import "@openzeppelin/hardhat-upgrades";
 import "solidity-coverage";
 
+import "./tasks";
+
 const config: HardhatUserConfig = {
     solidity: {
         compilers: [
