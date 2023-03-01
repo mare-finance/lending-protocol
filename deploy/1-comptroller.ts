@@ -3,29 +3,35 @@ import { DeployFunction } from "hardhat-deploy/types";
 
 const func: DeployFunction = async ({
     getNamedAccounts,
-    deployments: { deploy },
+    deployments: { deploy, getOrNull },
     ethers,
     network,
 }: HardhatRuntimeEnvironment) => {
     const { deployer } = await getNamedAccounts();
 
-    const comptrollerImplDeploy = await deploy("ComptrollerImpl", {
-        from: deployer,
-        log: true,
-        contract: "contracts/Comptroller.sol:Comptroller",
-        args: [],
-    });
+    let comptrollerImplDeploy = await getOrNull("ComptrollerImpl");
+    if (!comptrollerImplDeploy) {
+        comptrollerImplDeploy = await deploy("ComptrollerImpl", {
+            from: deployer,
+            log: true,
+            contract: "contracts/Comptroller.sol:Comptroller",
+            args: [],
+        });
+    }
     const comptrollerImpl = await ethers.getContractAt(
         "Comptroller",
         comptrollerImplDeploy.address
     );
 
-    const unitrollerDeploy = await deploy("ComptrollerV1", {
-        from: deployer,
-        log: true,
-        contract: "contracts/Unitroller.sol:Unitroller",
-        args: [],
-    });
+    let unitrollerDeploy = await getOrNull("ComptrollerV1");
+    if (!unitrollerDeploy) {
+        unitrollerDeploy = await deploy("ComptrollerV1", {
+            from: deployer,
+            log: true,
+            contract: "contracts/Unitroller.sol:Unitroller",
+            args: [],
+        });
+    }
     const unitroller = await ethers.getContractAt(
         "Unitroller",
         unitrollerDeploy.address
