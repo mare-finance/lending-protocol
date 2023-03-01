@@ -1880,6 +1880,6 @@ contract Comptroller is
      * @return The address of MARE
      */
     function getCompAddress() public view virtual returns (address) {
-        return 0x1DB2466d9F5e10D7090E7152B68d62703a2245F0;
+        return 0xd86C8d4279CCaFbec840c782BcC50D201f277419;
     }
 }

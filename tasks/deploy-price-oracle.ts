@@ -1,15 +1,8 @@
 import { task } from "hardhat/config";
 
-// npx hardhat deploy-price-oracle --network localhost
+import priceFeedConfig from "../config/price-feeds";
 
-const priceFeedMapping: { [key: string]: string } = {
-    soUSDC: "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
-    soUSDT: "0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46",
-};
-const baseUnitMapping: { [key: string]: string } = {
-    soUSDC: "1000000",
-    soUSDT: "1000000",
-};
+// npx hardhat deploy-price-oracle --network optimism
 
 task(
     "deploy-price-oracle",
@@ -18,10 +11,8 @@ task(
     const {
         ethers,
         getNamedAccounts,
-        deployments: { deploy, get, all },
+        deployments: { deploy, getOrNull, all },
     } = hre;
-
-    const deployment = await get("ChainlinkPriceOracle");
 
     const { deployer } = await getNamedAccounts();
 
@@ -33,14 +24,28 @@ task(
     const cTickers = cTokenDeployments.map(
         cTokenDeployment => cTokenDeployment.args?.[5]
     );
-    const priceFeeds = cTickers.map(cTicker => priceFeedMapping[cTicker]);
-    const baseUnits = cTickers.map(cTicker => baseUnitMapping[cTicker]);
 
-    const oracle = await deploy("ChainlinkPriceOracle", {
+    const priceFeeds = cTickers.map(cTicker => {
+        const soToken = priceFeedConfig[cTicker];
+        if (!soToken) throw new Error(`No MA token found for ${cTicker}`);
+        return soToken.priceFeed;
+    });
+    const priceDecimals = cTickers.map(cTicker => {
+        const soToken = priceFeedConfig[cTicker];
+        if (!soToken) throw new Error(`No MA token found for ${cTicker}`);
+        return soToken.priceDecimals;
+    });
+    const baseUnits = cTickers.map(cTicker => {
+        const soToken = priceFeedConfig[cTicker];
+        if (!soToken) throw new Error(`No MA token found for ${cTicker}`);
+        return soToken.baseUnit;
+    });
+
+    const oracle = await deploy("WitnetPriceOracle", {
         from: deployer,
         log: true,
         contract:
-            "contracts/PriceOracle/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
-        args: [cTickers, priceFeeds, baseUnits],
+            "contracts/PriceOracle/WitnetPriceOracle.sol:WitnetPriceOracle",
+        args: [cTickers, priceFeeds, priceDecimals, baseUnits],
     });
 });
