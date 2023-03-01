@@ -7,6 +7,7 @@ const func: DeployFunction = async ({
     ethers,
     network,
 }: HardhatRuntimeEnvironment) => {
+    return;
     const { deployer } = await getNamedAccounts();
     const stableRateModel = await deploy("StableRateModel", {
         from: deployer,

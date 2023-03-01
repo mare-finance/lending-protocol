@@ -2,7 +2,7 @@ import { task, types } from "hardhat/config";
 
 /**
  * npx hardhat deploy-ctoken \
- * --network localhost \
+ * --network hardhat \
  * --underlying-address 0xfA9343C3897324496A05fC75abeD6bAC29f8A40f \
  * --underlying-decimals 6 \
  * --underlying-name "USD Coin" \
@@ -47,8 +47,8 @@ task("deploy-ctoken", "Deploys a new ctoken")
         const { deployer } = await getNamedAccounts();
 
         const contractKey = `CErc20Immutable_${underlyingSymbol}`;
-        const soName = `Sonne ${underlyingName}`;
-        const soSymbol = `so${underlyingSymbol}`;
+        const soName = `Mare ${underlyingName}`;
+        const soSymbol = `ma${underlyingSymbol}`;
 
         let cToken;
 

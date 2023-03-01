@@ -5,6 +5,7 @@ const func: DeployFunction = async ({
     getNamedAccounts,
     deployments: { deploy },
 }: HardhatRuntimeEnvironment) => {
+    return;
     const { deployer } = await getNamedAccounts();
 
     await deploy("BasicLens", {

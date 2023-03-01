@@ -27,12 +27,11 @@ const config: HardhatUserConfig = {
     },
     networks: {
         hardhat: {
+            chainId: 2222,
             forking: {
                 url: "https://evm.kava.io",
-                blockNumber: 3378340,
+                blockNumber: 3799680,
             },
-            initialBaseFeePerGas: 0,
-            gasPrice: 0,
         },
         kava: {
             chainId: 2222,
@@ -40,8 +39,8 @@ const config: HardhatUserConfig = {
             accounts: [process.env.DEPLOYER_KAVA!],
             verify: {
                 etherscan: {
-                    apiUrl: "https://explorer.kava.io/api",
-                    apiKey: "",
+                    apiUrl: "https://explorer.kava.io",
+                    apiKey: "abc",
                 },
             },
         },
