@@ -1,0 +1,35 @@
+export default {
+    maUSDC: {
+        source: "Witnet",
+        priceFeed: "0x7462896558d958117eab5C99436b09E5bb4dEc39",
+        priceDecimals: "6",
+        baseUnit: "1000000",
+        collateralFactor: "0.8",
+        reserveFactor: "0.13",
+        rateModel: "StableRateModel",
+    },
+    maUSDT: {
+        source: "Witnet",
+        priceFeed: "0xD0749889c2560d38cA87903c09e0a14FDEDA0121",
+        priceDecimals: "6",
+        baseUnit: "1000000",
+        collateralFactor: "0.8",
+        reserveFactor: "0.13",
+    },
+    maDAI: {
+        source: "Witnet",
+        priceFeed: "0x4C5bE19CA11EAd22Ed0231D3AC63bFd1ABE10467",
+        priceDecimals: "6",
+        baseUnit: "1000000000000000000",
+        collateralFactor: "0.8",
+        reserveFactor: "0.13",
+    },
+    maWKAVA: {
+        source: "Witnet",
+        priceFeed: "0x4F861288D48dBB8d71B4e03f6748263b13294420",
+        priceDecimals: "6",
+        baseUnit: "1000000000000000000",
+        collateralFactor: "0.35",
+        reserveFactor: "0.18",
+    },
+};
