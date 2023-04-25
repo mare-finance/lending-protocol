@@ -2,15 +2,15 @@ import { task, types } from "hardhat/config";
 
 /**
  * npx hardhat deploy-ctoken \
- * --network hardhat \
- * --underlying-address 0xfA9343C3897324496A05fC75abeD6bAC29f8A40f \
- * --underlying-decimals 6 \
- * --underlying-name "USD Coin" \
- * --underlying-symbol "USDC" \
+ * --network kava \
+ * --underlying-address 0xE3F5a90F9cb311505cd691a46596599aA1A0AD7D \
+ * --underlying-decimals 18 \
+ * --underlying-name "Multichain Ether" \
+ * --underlying-symbol "ETH" \
  * --decimals 8 \
  * --comptroller-key "ComptrollerV1" \
  * --interest-rate-model-key "StableRateModel" \
- * --owner 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+ * --owner 0xfb59ce8986943163f14c590755b29db2998f2322
  */
 
 task("deploy-ctoken", "Deploys a new ctoken")

@@ -32,4 +32,12 @@ export default {
         collateralFactor: "0.35",
         reserveFactor: "0.18",
     },
+    maETH: {
+        source: "Witnet",
+        priceFeed: "0xD8EBAAf409a53668E630Eeed4c9a98C2248E0DBb",
+        priceDecimals: "6",
+        baseUnit: "1000000000000000000",
+        collateralFactor: "0.65",
+        reserveFactor: "0.18",
+    },
 };
