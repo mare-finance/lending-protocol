@@ -2,7 +2,7 @@ import { task } from "hardhat/config";
 
 import priceFeedConfig from "../config/price-feeds";
 
-// npx hardhat deploy-price-oracle --network optimism
+// npx hardhat deploy-price-oracle --network kava
 
 task(
     "deploy-price-oracle",
