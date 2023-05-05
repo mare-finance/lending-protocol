@@ -28,16 +28,73 @@ interface ComptrollerLensInterface {
     function compBorrowSpeeds(address) external view returns (uint256);
 
     function borrowCaps(address) external view returns (uint256);
+
+    function getExternalRewardDistributorAddress()
+        external
+        view
+        returns (address);
+}
+
+interface ExternalRewardDistributorInterface {
+    function rewardTokens() external view returns (address[] memory);
+
+    function rewardTokenExists(address token) external view returns (bool);
 }
 
 contract BasicLens {
-    function compAccued(
+    function rewardsAccrued(
         ComptrollerLensInterface comptroller,
         address account
-    ) external returns (uint256 accrued) {
-        address comp = comptroller.getCompAddress();
-        uint256 balance = EIP20Interface(comp).balanceOf(account);
+    )
+        external
+        returns (address[] memory rewadTokens, uint256[] memory accrued)
+    {
+        address externalRewardDistributor = comptroller
+            .getExternalRewardDistributorAddress();
+        address[] memory rewardTokens = ExternalRewardDistributorInterface(
+            externalRewardDistributor
+        ).rewardTokens();
+
+        address defaultRewardToken = comptroller.getCompAddress();
+        if (
+            !ExternalRewardDistributorInterface(externalRewardDistributor)
+                .rewardTokenExists(defaultRewardToken)
+        ) {
+            address[] memory tempRewardTokens = new address[](
+                rewardTokens.length
+            );
+            tempRewardTokens[0] = defaultRewardToken;
+            for (uint256 i = 0; i < rewardTokens.length; i++) {
+                tempRewardTokens[i + 1] = rewadTokens[i];
+            }
+            rewardTokens = tempRewardTokens;
+        }
+
+        uint256[] memory beforeBalances = getBalancesInternal(
+            rewardTokens,
+            account
+        );
+
         comptroller.claimComp(account);
-        accrued = EIP20Interface(comp).balanceOf(account) - balance;
+
+        uint256[] memory afterBalances = getBalancesInternal(
+            rewardTokens,
+            account
+        );
+
+        accrued = new uint256[](rewardTokens.length);
+        for (uint256 i = 0; i < rewardTokens.length; i++) {
+            accrued[i] = afterBalances[i] - beforeBalances[i];
+        }
+    }
+
+    function getBalancesInternal(
+        address[] memory tokens,
+        address account
+    ) internal view returns (uint256[] memory balances) {
+        balances = new uint256[](tokens.length);
+        for (uint256 i = 0; i < tokens.length; i++) {
+            balances[i] = EIP20Interface(tokens[i]).balanceOf(account);
+        }
     }
 }

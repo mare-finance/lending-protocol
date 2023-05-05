@@ -6,7 +6,6 @@ import "@nomicfoundation/hardhat-network-helpers";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-deploy";
-import "@openzeppelin/hardhat-upgrades";
 import "solidity-coverage";
 
 import "./tasks";
@@ -28,15 +27,22 @@ const config: HardhatUserConfig = {
     networks: {
         hardhat: {
             chainId: 2222,
-            forking: {
-                url: "https://evm.kava.io",
-                blockNumber: 3799680,
+            companionNetworks: {
+                mainnet: process.env.FORKING_NETWORK?.toLowerCase()!,
             },
+            forking: {
+                enabled: true,
+                url: process.env[
+                    `${process.env.FORKING_NETWORK?.toUpperCase()}_RPC_URL`
+                ]!,
+            },
+            autoImpersonate: true,
+            gasPrice: 1000000000,
         },
         kava: {
             chainId: 2222,
-            url: "https://evm.kava.io",
-            accounts: [process.env.DEPLOYER_KAVA!],
+            url: process.env.KAVA_RPC_URL,
+            accounts: [process.env.KAVA_DEPLOYER!],
             verify: {
                 etherscan: {
                     apiUrl: "https://explorer.kava.io",

@@ -15,7 +15,7 @@ task("update-price-oracle", "Updates the price oracle of the comptroller")
 
         console.log("running task: update-price-oracle");
 
-        const ComptrollerProxy = await ethers.getContract("ComptrollerV1");
+        const ComptrollerProxy = await ethers.getContract("Unitroller");
         const Comptroller = await ethers.getContractAt(
             "Comptroller",
             ComptrollerProxy.address

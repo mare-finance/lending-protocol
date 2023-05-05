@@ -13,7 +13,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "USD Coin" \
 --underlying-symbol "USDC" \
 --decimals 8 \
---comptroller-key "ComptrollerV1" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
@@ -24,7 +24,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "Tether USD" \
 --underlying-symbol "USDT" \
 --decimals 8 \
---comptroller-key "ComptrollerV1" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
@@ -35,7 +35,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "Dai Stablecoin" \
 --underlying-symbol "DAI" \
 --decimals 8 \
---comptroller-key "ComptrollerV1" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
@@ -46,7 +46,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "Wrapped KAVA" \
 --underlying-symbol "WKAVA" \
 --decimals 8 \
---comptroller-key "ComptrollerV1" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "VolatileRateModel" \
 --owner $OWNER
 

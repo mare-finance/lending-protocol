@@ -5,8 +5,6 @@ import { expect } from "chai";
 import { Contract } from "ethers";
 import hre, { ethers, deployments } from "hardhat";
 
-import priceFeeds from "../config/price-feeds";
-
 interface DeployFixture {
     admin: SignerWithAddress;
     Comptroller: Contract;
@@ -22,7 +20,7 @@ describe("Price Oracle", function () {
         async ({ deployments, ethers }, options) => {
             const [admin] = await ethers.getSigners();
 
-            const ComptrollerProxy = await ethers.getContract("ComptrollerV1");
+            const ComptrollerProxy = await ethers.getContract("Unitroller");
             const Comptroller = await ethers.getContractAt(
                 "Comptroller",
                 ComptrollerProxy.address

@@ -23,7 +23,7 @@ task(
         .filter(([key, value]) => key.startsWith("CErc20Immutable_"))
         .map(([key, value]) => value);
 
-    const ComptrollerProxy = await ethers.getContract("ComptrollerV1");
+    const ComptrollerProxy = await ethers.getContract("Unitroller");
     const Comptroller = await ethers.getContractAt(
         "Comptroller",
         ComptrollerProxy.address
