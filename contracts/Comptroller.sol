@@ -1544,6 +1544,10 @@ contract Comptroller is
         } else if (deltaBlocks > 0) {
             supplyState.block = blockNumber;
         }
+
+        (bool success, ) = getExternalRewardDistributorAddress().call(
+            abi.encodeWithSignature("notifySupplyIndex(address)", cToken)
+        );
     }
 
     /**
@@ -1582,6 +1586,10 @@ contract Comptroller is
         } else if (deltaBlocks > 0) {
             borrowState.block = blockNumber;
         }
+
+        (bool success, ) = getExternalRewardDistributorAddress().call(
+            abi.encodeWithSignature("notifyBorrowIndex(address)", cToken)
+        );
     }
 
     /**
@@ -1626,6 +1634,14 @@ contract Comptroller is
             supplier,
             supplierDelta,
             supplyIndex
+        );
+
+        (bool success, ) = getExternalRewardDistributorAddress().call(
+            abi.encodeWithSignature(
+                "notifySupplier(address,address)",
+                cToken,
+                supplier
+            )
         );
     }
 
@@ -1679,6 +1695,14 @@ contract Comptroller is
             borrower,
             borrowerDelta,
             borrowIndex
+        );
+
+        (bool success, ) = getExternalRewardDistributorAddress().call(
+            abi.encodeWithSignature(
+                "notifyBorrower(address,address)",
+                cToken,
+                borrower
+            )
         );
     }
 
@@ -1764,6 +1788,10 @@ contract Comptroller is
                 compAccrued[holders[j]]
             );
         }
+
+        (bool success, ) = getExternalRewardDistributorAddress().call(
+            abi.encodeWithSignature("claim(address[])", holders)
+        );
     }
 
     /**
@@ -1881,5 +1909,19 @@ contract Comptroller is
      */
     function getCompAddress() public view virtual returns (address) {
         return 0xd86C8d4279CCaFbec840c782BcC50D201f277419;
+    }
+
+    /**
+     * @notice Return the address of the external reward distributor
+     * @return The address of the external reward distributor
+     */
+
+    function getExternalRewardDistributorAddress()
+        public
+        view
+        virtual
+        returns (address)
+    {
+        return 0xa02B2b868B118920990D7BC0fFA9468E44e34663;
     }
 }
