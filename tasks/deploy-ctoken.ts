@@ -8,7 +8,7 @@ import { task, types } from "hardhat/config";
  * --underlying-name "Multichain Ether" \
  * --underlying-symbol "ETH" \
  * --decimals 8 \
- * --comptroller-key "ComptrollerV1" \
+ * --comptroller-key "Unitroller" \
  * --interest-rate-model-key "StableRateModel" \
  * --owner 0xfb59ce8986943163f14c590755b29db2998f2322
  */
