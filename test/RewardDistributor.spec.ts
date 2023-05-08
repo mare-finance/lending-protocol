@@ -34,7 +34,7 @@ const borrowSpeeds = [
 
 const MANTISSA = ethers.constants.WeiPerEther;
 
-describe.only("RewardDistributor", () => {
+describe("RewardDistributor", () => {
     let comptroller: Contract;
     let cTokens: { [key: string]: Contract };
     let rewardDistributor: Contract;

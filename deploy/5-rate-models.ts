@@ -52,7 +52,7 @@ const func: DeployFunction = async ({
         },
     };
 
-    const promises = Object.keys(modelDefinitions).map(async key => {
+    for (let key of Object.keys(modelDefinitions)) {
         const def = modelDefinitions[key];
         const existingDeploy = await getOrNull(def.name);
         if (existingDeploy) return;
@@ -71,9 +71,7 @@ const func: DeployFunction = async ({
                 def.name,
             ],
         });
-    });
-
-    await Promise.all(promises);
+    }
 };
 
 const tags = ["rate-models"];

@@ -11,30 +11,22 @@ const func: DeployFunction = async ({
 
     let unitrollerDeploy = await get("Unitroller");
 
-    let externalRewardDistributorDeploy = await getOrNull(
-        "ExternalRewardDistributor"
-    );
-    if (!externalRewardDistributorDeploy) {
-        externalRewardDistributorDeploy = await deploy(
-            "ExternalRewardDistributor",
-            {
-                from: deployer,
-                log: true,
-                contract:
-                    "contracts/ExternalRewardDistributor.sol:ExternalRewardDistributor",
-                args: [],
-                proxy: {
-                    proxyContract: "OpenZeppelinTransparentProxy",
-                    execute: {
-                        init: {
-                            methodName: "initialize",
-                            args: [unitrollerDeploy.address],
-                        },
-                    },
+    await deploy("ExternalRewardDistributor", {
+        from: deployer,
+        log: true,
+        contract:
+            "contracts/ExternalRewardDistributor.sol:ExternalRewardDistributor",
+        args: [],
+        proxy: {
+            proxyContract: "OpenZeppelinTransparentProxy",
+            execute: {
+                init: {
+                    methodName: "initialize",
+                    args: [unitrollerDeploy.address],
                 },
-            }
-        );
-    }
+            },
+        },
+    });
 };
 
 const tags = ["external-rewards"];
