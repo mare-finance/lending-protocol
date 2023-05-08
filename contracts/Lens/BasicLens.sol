@@ -36,7 +36,7 @@ interface ComptrollerLensInterface {
 }
 
 interface ExternalRewardDistributorInterface {
-    function rewardTokens() external view returns (address[] memory);
+    function getRewardTokens() external view returns (address[] memory);
 
     function rewardTokenExists(address token) external view returns (bool);
 }
@@ -47,25 +47,27 @@ contract BasicLens {
         address account
     )
         external
-        returns (address[] memory rewadTokens, uint256[] memory accrued)
+        returns (address[] memory rewardTokens, uint256[] memory accrued)
     {
         address externalRewardDistributor = comptroller
             .getExternalRewardDistributorAddress();
-        address[] memory rewardTokens = ExternalRewardDistributorInterface(
+
+        rewardTokens = ExternalRewardDistributorInterface(
             externalRewardDistributor
-        ).rewardTokens();
+        ).getRewardTokens();
 
         address defaultRewardToken = comptroller.getCompAddress();
-        if (
-            !ExternalRewardDistributorInterface(externalRewardDistributor)
-                .rewardTokenExists(defaultRewardToken)
-        ) {
+        bool doesDefaultTokenExist = ExternalRewardDistributorInterface(
+            externalRewardDistributor
+        ).rewardTokenExists(defaultRewardToken);
+
+        if (!doesDefaultTokenExist) {
             address[] memory tempRewardTokens = new address[](
-                rewardTokens.length
+                rewardTokens.length + 1
             );
             tempRewardTokens[0] = defaultRewardToken;
             for (uint256 i = 0; i < rewardTokens.length; i++) {
-                tempRewardTokens[i + 1] = rewadTokens[i];
+                tempRewardTokens[i + 1] = rewardTokens[i];
             }
             rewardTokens = tempRewardTokens;
         }

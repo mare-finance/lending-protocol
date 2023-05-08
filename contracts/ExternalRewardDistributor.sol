@@ -413,4 +413,9 @@ contract ExternalRewardDistributor is
         }
         return amount;
     }
+
+    /** Getters */
+    function getRewardTokens() public view returns (address[] memory) {
+        return rewardTokens;
+    }
 }

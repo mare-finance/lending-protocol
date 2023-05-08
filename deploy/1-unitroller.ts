@@ -9,19 +9,12 @@ const func: DeployFunction = async ({
 }: HardhatRuntimeEnvironment) => {
     const { deployer } = await getNamedAccounts();
 
-    let unitrollerDeploy = await getOrNull("Unitroller");
-    if (!unitrollerDeploy) {
-        unitrollerDeploy = await deploy("Unitroller", {
-            from: deployer,
-            log: true,
-            contract: "contracts/Unitroller.sol:Unitroller",
-            args: [],
-        });
-    }
-    const unitroller = await ethers.getContractAt(
-        "Unitroller",
-        unitrollerDeploy.address
-    );
+    await deploy("Unitroller", {
+        from: deployer,
+        log: true,
+        contract: "contracts/Unitroller.sol:Unitroller",
+        args: [],
+    });
 };
 
 const tags = ["unitroller"];
