@@ -12,15 +12,15 @@ struct RewardMarketState {
     /// @notice The supply speed for each market
     uint256 supplySpeed;
     /// @notice The supply index for each market
-    uint224 supplyIndex;
-    /// @notice The last block number that Reward accrued for supply
-    uint32 supplyBlock;
+    uint256 supplyIndex;
+    /// @notice The last tick that Reward accrued for supply
+    uint256 supplyTick;
     /// @notice The borrow speed for each market
     uint256 borrowSpeed;
     /// @notice The borrow index for each market
-    uint224 borrowIndex;
-    /// @notice The last block number that Reward accrued for borrow
-    uint32 borrowBlock;
+    uint256 borrowIndex;
+    /// @notice The last tick that Reward accrued for borrow
+    uint256 borrowTick;
 }
 
 struct RewardAccountState {
@@ -33,12 +33,12 @@ struct RewardAccountState {
 }
 
 /**
- * @title External Reward Distributor (version 1)
+ * @title Reward Distributor (version 1)
  * @author Sonne Finance
  * @notice This contract is used to distribute rewards to users for supplying and borrowing assets.
  * Each supply and borrow changing action from comptroller will trigger index update for each reward token.
  */
-contract ExternalRewardDistributor is
+contract RewardDistributor is
     Initializable,
     OwnableUpgradeable,
     ExponentialNoError
@@ -68,7 +68,7 @@ contract ExternalRewardDistributor is
     );
 
     /// @notice The initial reward index for a market
-    uint224 public constant rewardInitialIndex = 1e36;
+    uint256 public constant rewardInitialIndex = 1e36;
 
     /// @notice The comptroller that rewards are distributed to
     address public comptroller;
@@ -188,24 +188,23 @@ contract ExternalRewardDistributor is
             cToken
         ];
 
-        uint32 blockNumber = getBlockNumber();
+        uint256 tick = getTick();
 
-        if (blockNumber > marketState.supplyBlock) {
+        if (tick > marketState.supplyTick) {
             if (marketState.supplySpeed > 0) {
-                uint256 deltaBlocks = blockNumber - marketState.supplyBlock;
+                uint256 deltaTick = tick - marketState.supplyTick;
                 uint256 supplyTokens = CTokenInterface(cToken).totalSupply();
-                uint256 accrued = mul_(deltaBlocks, marketState.supplySpeed);
+                uint256 accrued = mul_(deltaTick, marketState.supplySpeed);
                 Double memory ratio = supplyTokens > 0
                     ? fraction(accrued, supplyTokens)
                     : Double({mantissa: 0});
-                marketState.supplyIndex = safe224(
-                    add_(Double({mantissa: marketState.supplyIndex}), ratio)
-                        .mantissa,
-                    "new index exceeds 224 bits"
-                );
+                marketState.supplyIndex = add_(
+                    Double({mantissa: marketState.supplyIndex}),
+                    ratio
+                ).mantissa;
             }
 
-            marketState.supplyBlock = blockNumber;
+            marketState.supplyTick = tick;
         }
     }
 
@@ -227,27 +226,26 @@ contract ExternalRewardDistributor is
             cToken
         ];
 
-        uint32 blockNumber = getBlockNumber();
+        uint256 tick = getTick();
 
-        if (blockNumber > marketState.borrowBlock) {
+        if (tick > marketState.borrowTick) {
             if (marketState.borrowSpeed > 0) {
-                uint256 deltaBlocks = blockNumber - marketState.borrowBlock;
+                uint256 deltaTick = tick - marketState.borrowTick;
                 uint256 borrowAmount = div_(
                     CTokenInterface(cToken).totalBorrows(),
                     marketBorrowIndex
                 );
-                uint256 accrued = mul_(deltaBlocks, marketState.borrowSpeed);
+                uint256 accrued = mul_(deltaTick, marketState.borrowSpeed);
                 Double memory ratio = borrowAmount > 0
                     ? fraction(accrued, borrowAmount)
                     : Double({mantissa: 0});
-                marketState.borrowIndex = safe224(
-                    add_(Double({mantissa: marketState.borrowIndex}), ratio)
-                        .mantissa,
-                    "new index exceeds 224 bits"
-                );
+                marketState.borrowIndex = add_(
+                    Double({mantissa: marketState.borrowIndex}),
+                    ratio
+                ).mantissa;
             }
 
-            marketState.borrowBlock = blockNumber;
+            marketState.borrowTick = tick;
         }
     }
 
@@ -355,7 +353,7 @@ contract ExternalRewardDistributor is
         );
     }
 
-    function claim(address[] memory holders) public onlyComptroller {
+    function claim(address[] memory holders) public {
         for (uint256 i = 0; i < rewardTokens.length; i++) {
             claimInternal(rewardTokens[i], holders);
         }
@@ -378,8 +376,8 @@ contract ExternalRewardDistributor is
         }
     }
 
-    function getBlockNumber() public view returns (uint32) {
-        return safe32(block.timestamp, "block number exceeds 32 bits");
+    function getTick() public view returns (uint256) {
+        return block.timestamp;
     }
 
     function _grantReward(
