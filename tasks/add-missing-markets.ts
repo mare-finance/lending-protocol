@@ -69,8 +69,9 @@ task(
         const tx = await Comptroller._supportMarket(cToken);
         txPromises.push(tx.wait());
 
+        /*  DO NOT SET COLLATERAL FACTOR BEFORE MINTING SOME */
         // set collateral factor
-        const collateralFactor = (await Comptroller.markets(cToken))
+        /*const collateralFactor = (await Comptroller.markets(cToken))
             .collateralFactorMantissa;
         const newCollateralFactor = ethers.utils.parseEther(
             config.collateralFactor
@@ -87,7 +88,7 @@ task(
                 symbol,
                 newCollateralFactor.toString()
             );
-        }
+        }*/
     }
 
     await Promise.all(txPromises);

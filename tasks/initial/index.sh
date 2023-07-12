@@ -8,32 +8,10 @@ npx hardhat deploy --network $NETWORK
 
 npx hardhat deploy-ctoken \
 --network $NETWORK \
---underlying-address 0xfA9343C3897324496A05fC75abeD6bAC29f8A40f \
---underlying-decimals 6 \
---underlying-name "USD Coin" \
---underlying-symbol "USDC" \
---decimals 8 \
---comptroller-key "Unitroller" \
---interest-rate-model-key "StableRateModel" \
---owner $OWNER
-
-npx hardhat deploy-ctoken \
---network $NETWORK \
---underlying-address 0xB44a9B6905aF7c801311e8F4E76932ee959c663C \
+--underlying-address 0x919C1c267BC06a7039e03fcc2eF738525769109c \
 --underlying-decimals 6 \
 --underlying-name "Tether USD" \
---underlying-symbol "USDT" \
---decimals 8 \
---comptroller-key "Unitroller" \
---interest-rate-model-key "StableRateModel" \
---owner $OWNER
-
-npx hardhat deploy-ctoken \
---network $NETWORK \
---underlying-address 0x765277EebeCA2e31912C9946eAe1021199B39C61 \
---underlying-decimals 18 \
---underlying-name "Dai Stablecoin" \
---underlying-symbol "DAI" \
+--underlying-symbol "USDt" \
 --decimals 8 \
 --comptroller-key "Unitroller" \
 --interest-rate-model-key "StableRateModel" \
