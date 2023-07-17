@@ -1,6 +1,6 @@
 #!/bin/(shell)
 
-# NETWORK=localhost \
+# NETWORK=kava \
 # OWNER=0xFb59Ce8986943163F14C590755b29dB2998F2322 \
 # sh ./tasks/initial/index.sh
 
@@ -15,7 +15,8 @@ npx hardhat deploy-ctoken \
 --decimals 8 \
 --comptroller-key "Unitroller" \
 --interest-rate-model-key "StableRateModel" \
---owner $OWNER
+--owner $OWNER \
+--proxy true
 
 npx hardhat deploy-ctoken \
 --network $NETWORK \
@@ -26,7 +27,8 @@ npx hardhat deploy-ctoken \
 --decimals 8 \
 --comptroller-key "Unitroller" \
 --interest-rate-model-key "VolatileRateModel" \
---owner $OWNER
+--owner $OWNER \
+--proxy true
 
 npx hardhat deploy-price-oracle --network $NETWORK
 

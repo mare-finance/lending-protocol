@@ -48,14 +48,14 @@ const func: DeployFunction = async ({
             jumpMultiplierPerYear: ethers.utils.parseEther("5"),
             kink: ethers.utils.parseEther("0.8"),
             owner: deployer,
-            name: "MediumRateModel",
+            name: "VolatileRateModel",
         },
     };
 
     for (let key of Object.keys(modelDefinitions)) {
         const def = modelDefinitions[key];
         const existingDeploy = await getOrNull(def.name);
-        if (existingDeploy) return;
+        if (existingDeploy) continue;
 
         await deploy(def.name, {
             from: deployer,

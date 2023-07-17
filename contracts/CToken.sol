@@ -1331,7 +1331,7 @@ abstract contract CToken is
         // doTransferOut reverts if anything goes wrong, since we can't be sure if side effects occurred.
         doTransferOut(payable(msg.sender), reduceAmount);
 
-        emit ReservesReduced(admin, reduceAmount, totalReservesNew);
+        emit ReservesReduced(msg.sender, reduceAmount, totalReservesNew);
 
         return NO_ERROR;
     }
