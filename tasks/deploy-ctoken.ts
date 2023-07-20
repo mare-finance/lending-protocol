@@ -2,14 +2,14 @@ import { task, types } from "hardhat/config";
 
 /**
  * npx hardhat deploy-ctoken \
- * --network localhost \
- * --underlying-address 0xE3F5a90F9cb311505cd691a46596599aA1A0AD7D \
- * --underlying-decimals 18 \
- * --underlying-name "Multichain Ether" \
- * --underlying-symbol "ETH" \
+ * --network kava \
+ * --underlying-address 0x15932E26f5BD4923d46a2b205191C4b5d5f43FE3 \
+ * --underlying-decimals 6 \
+ * --underlying-name "ATOM" \
+ * --underlying-symbol "ATOM" \
  * --decimals 8 \
  * --comptroller-key "Unitroller" \
- * --interest-rate-model-key "StableRateModel" \
+ * --interest-rate-model-key "VolatileRateModel" \
  * --owner 0xfb59ce8986943163f14c590755b29db2998f2322 \
  * --proxy true
  */

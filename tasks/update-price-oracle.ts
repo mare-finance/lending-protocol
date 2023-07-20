@@ -2,7 +2,9 @@ import { task } from "hardhat/config";
 
 import priceFeedConfig from "../config/price-feeds";
 
-// npx hardhat deploy-price-oracle --network optimism
+// npx hardhat update-price-oracle \
+// --price-oracle-key "WitnetPriceOracle" 
+// --network kava
 
 task("update-price-oracle", "Updates the price oracle of the comptroller")
     .addParam("priceOracleKey", "The key of the price oracle to use")

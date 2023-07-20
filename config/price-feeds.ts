@@ -15,4 +15,12 @@ export default {
         collateralFactor: "0.85",
         reserveFactor: "0.13",
     },
+    maATOM: {
+        source: "Witnet",
+        priceFeed: "0xF503A52bEcF03d9d5fc85459906a4d280142B1cd",
+        priceDecimals: "6",
+        baseUnit: "1000000",
+        collateralFactor: "0.50",
+        reserveFactor: "0.20",
+    },
 };
